@@ -77,7 +77,7 @@ public class GUI extends JFrame implements ActionListener{
 		pubPrivList.setBounds(325, 380, 65, 25);
 		post = new JButton("Post");
 		post.setBounds(400, 380, 65, 25);
-		viewProf = new JButton("View Profile");
+		viewProf = new JButton("View Profile");    //CANT GO BACK AFTER YOU SELECT VIEW PROFILE
 		viewProf.setBounds(480,380,130,25);
 		statusBox = new JLabel(" ");
 		statusBox.setBounds(25,380,300,25);
