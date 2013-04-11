@@ -68,21 +68,11 @@ public void insertPublicPost(String currentuser, String pubpost){
             System.out.println("YOU SUCK AT INSERTING PUBLIC POST"+e);
         }
 }
-public void insertProfile(){    //MAY HAVE PROBLEMS WITH WRITTING MORE THEN ONE PROFILE FOR A PERSON
+public void insertProfile(String currentuser,String firstname,String lastname, String birthday, String aboutme){    
    try{
-        System.out.println("ENTER Profile Info");
-        System.out.println("ENTER USER_ID");
-        String user_id = in.nextLine();
-        System.out.println("ENTER FIRST NAME");
-        String firstname = in.nextLine();
-        System.out.println("ENTER LAST NAME");
-        String lastname = in.nextLine();
-        System.out.println("ENTER ABOUT ME SECTION");
-        String aboutme = in.nextLine();
-        System.out.println("ENTER AGE");
-        String age = in.nextLine();
-              
-        String insert = "INSERT INTO profile (user_id,firstname,lastname,aboutme,age) VALUES ('"+user_id+"','"+firstname+"','"+lastname+"','"+aboutme+"','"+age+"')";
+
+       String id = getCurrentUser(currentuser);
+        String insert = "INSERT INTO profile (user_id,firstname,lastname,aboutme,age) VALUES ('"+id+"','"+firstname+"','"+lastname+"','"+aboutme+"','"+birthday+"')";
             System.out.println(insert);
             stmt.executeUpdate(insert);
             System.out.println("");
@@ -174,11 +164,11 @@ public LinkedList<String> getSubscribe(String currentuser){
                 list.add(subname);
             }          
         }catch(Exception ex){
-            System.out.println("YOU SUCK AT GETTING PUBLIC POSTS"+ex);
+            System.out.println("YOU SUCK AT GETTING SUBSCRIBES"+ex);
         }
         return list;
 } 
-public String getName(String currentuser){   //LOOKS WEIRD WITH NO ABOUT ME INFO *** EDIT FOR ONLY A SPECIFIC USER
+public String getName(String currentuser){  
     String name = "DB ERROR";   
     try{            
             String id = getCurrentUser(currentuser);
