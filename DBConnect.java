@@ -1,4 +1,13 @@
 
+/** 
+ * sdlkfj;lasdff
+ * asdlfk
+ * sdlksd
+ * 
+ * 
+ * */
+
+
 import java.sql.*;
 import java.util.*;
 
@@ -9,15 +18,18 @@ public class DBConnect {
     private Statement stmt;
     private ResultSet rs;    
   
+    LinkedList<String> publicposts = new LinkedList<>( );
+    LinkedList<String> privateposts = new LinkedList<>( );
+    LinkedList<String> subscribe = new LinkedList<>( );
+    LinkedList<String> users = new LinkedList<>( ); 
+    
+    
 public DBConnect(){
     try{   
         Class.forName("com.mysql.jdbc.Driver");
         
         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/orn","root","");
-        stmt = con.createStatement();
-
-
-                
+        stmt = con.createStatement();            
     }
     catch(Exception exp){
     System.out.println("YOU SUCK AT CONNECTING"+exp);
@@ -68,21 +80,11 @@ public void insertPublicPost(String currentuser, String pubpost){
             System.out.println("YOU SUCK AT INSERTING PUBLIC POST"+e);
         }
 }
-public void insertProfile(){    //MAY HAVE PROBLEMS WITH WRITTING MORE THEN ONE PROFILE FOR A PERSON
+public void insertProfile(String currentuser,String firstname,String lastname, String birthday, String aboutme, String color){    
    try{
-        System.out.println("ENTER Profile Info");
-        System.out.println("ENTER USER_ID");
-        String user_id = in.nextLine();
-        System.out.println("ENTER FIRST NAME");
-        String firstname = in.nextLine();
-        System.out.println("ENTER LAST NAME");
-        String lastname = in.nextLine();
-        System.out.println("ENTER ABOUT ME SECTION");
-        String aboutme = in.nextLine();
-        System.out.println("ENTER AGE");
-        String age = in.nextLine();
-              
-        String insert = "INSERT INTO profile (user_id,firstname,lastname,aboutme,age) VALUES ('"+user_id+"','"+firstname+"','"+lastname+"','"+aboutme+"','"+age+"')";
+
+       String id = getCurrentUser(currentuser);
+        String insert = "INSERT INTO profile (user_id,firstname,lastname,aboutme,age,color) VALUES ('"+id+"','"+firstname+"','"+lastname+"','"+aboutme+"','"+birthday+"','"+color+"')";
             System.out.println(insert);
             stmt.executeUpdate(insert);
             System.out.println("");
@@ -174,11 +176,11 @@ public LinkedList<String> getSubscribe(String currentuser){
                 list.add(subname);
             }          
         }catch(Exception ex){
-            System.out.println("YOU SUCK AT GETTING PUBLIC POSTS"+ex);
+            System.out.println("YOU SUCK AT GETTING SUBSCRIBES"+ex);
         }
         return list;
 } 
-public String getName(String currentuser){   //LOOKS WEIRD WITH NO ABOUT ME INFO *** EDIT FOR ONLY A SPECIFIC USER
+public String getName(String currentuser){  
     String name = "DB ERROR";   
     try{            
             String id = getCurrentUser(currentuser);
@@ -222,6 +224,27 @@ public String getAge(String currentuser){
         }
       return age;  
 }  
+public String getColor(String currentuser){   
+    String color = "DB ERROR";   
+    try{            
+            String id = getCurrentUser(currentuser);
+            if(id.equals("-1")){
+                System.out.println("Cant do nothing");
+            }else{
+            String query = "SELECT color FROM profile WHERE user_id = '"+id+"'";
+            
+            rs = stmt.executeQuery(query);
+            
+            while(rs.next()){
+                color =rs.getString("color");
+                
+            }          
+            }
+        }catch(Exception ex){
+            System.out.println("YOU SUCK AT GETTING AGE"+ex);
+        }
+      return color;  
+} 
 public String getAboutMe(String currentuser){   
     String AboutMe = "DB ERROR";   
     try{            
